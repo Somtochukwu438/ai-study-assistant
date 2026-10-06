@@ -1,0 +1,182 @@
+[
+    {
+      "category": "Factual",
+      "question": "Who were the specific founders of the Black Lives Matter movement according to the text?",
+      "ground_truth_context": "Three Black women organizers Alicia Garza, Patrisse Cullors, and Opal Tometi created #BlackLivesMatter in 2013 after the acquittal of George Zimmerman in the killing of Trayvon Martin.",
+      "ground_truth_answer": "The Black Lives Matter movement was created by Alicia Garza, Patrisse Cullors, and Opal Tometi in 2013."
+    },
+    {
+      "category": "Factual",
+      "question": "What groups made up the multiracial alliance of the Rainbow Coalition in Chicago?",
+      "ground_truth_context": "In Chicago, Hampton helped build a multiracial alliance between poor Black, Puerto Rican, and white Appalachian communities to fight police brutality, bad housing, and poverty.",
+      "ground_truth_answer": "The Rainbow Coalition was a multiracial alliance composed of poor Black, Puerto Rican, and white Appalachian communities."
+    },
+    {
+      "category": "Reasoning",
+      "question": "How did David Walker's demands regarding the end of slavery differ from gradual emancipation?",
+      "ground_truth_context": "Walker did not ask white people politely to change; he warned that God's justice would punish a nation that held people in chains. Walker shows that before the Civil War, Black thinkers were already demanding immediate freedom and equality, not just gradual change or colonization.",
+      "ground_truth_answer": "Unlike those who supported gradual change or colonization, David Walker demanded immediate freedom and equality, aggressively warning that God would punish the nation for slavery."
+    },
+    {
+      "category": "Reasoning",
+      "question": "How did the Harlem Renaissance shift the focus of Black resistance compared to previous movements?",
+      "ground_truth_context": "Jumping forward to the 1920s, the Harlem Renaissance marks a shift from fighting mainly for physical freedom to fighting for cultural and psychological freedom.",
+      "ground_truth_answer": "The Harlem Renaissance shifted the focus of Black resistance from primarily fighting for physical freedom to fighting for cultural and psychological freedom, emphasizing Black creativity and pride."
+    },
+    {
+      "category": "Semantic / Tricky",
+      "question": "Did Angelina Grimké rely on aggressive political protests to spread her abolitionist message?",
+      "ground_truth_context": "She used 'moral suasion', trying to change hearts by appealing to Christian values and the Bible.",
+      "ground_truth_answer": "No, Angelina Grimké did not rely on aggressive political protests; instead, she utilized 'moral suasion' to appeal to Christian values and the Bible in an effort to change people's hearts."
+    },
+    {
+      "category": "Factual",
+      "question": "What impact did Mansa Musa's 1324 pilgrimage have on Cairo?",
+      "ground_truth_context": "His famous pilgrimage (hajj) to Mecca in 1324, where he traveled with a huge caravan and gave away so much gold that it affected prices in Cairo, shocked the Mediterranean world and put West Africa on global maps.",
+      "ground_truth_answer": "Mansa Musa gave away so much gold during his pilgrimage that it affected prices in Cairo and shocked the Mediterranean world."
+    },
+    {
+      "category": "Reasoning",
+      "question": "How did Mansa Musa's reign challenge European misconceptions about Africa?",
+      "ground_truth_context": "In class, learning about him challenged the racist idea that Africa was 'backwards' and had no civilization until Europeans arrived. His patronage of learning in Timbuktu, where mosques and universities attracted scholars across the Muslim world, showed that African societies had their own centers of knowledge and culture.",
+      "ground_truth_answer": "His wealth and patronage of learning in Timbuktu demonstrated that African societies were powerful and possessed their own centers of knowledge and civilization long before European arrival."
+    },
+    {
+      "category": "Factual",
+      "question": "According to the referenced video, how many Africans were taken during the Atlantic slave trade?",
+      "ground_truth_context": "The video 'The Middle Passage: A Brutal Slave-Trade Supply Chain' helped me picture what those numbers actually meant in human terms: over twelve million Africans taken, families separated, and bodies thrown overboard when they got sick.",
+      "ground_truth_answer": "Over twelve million Africans were taken during the Atlantic slave trade."
+    },
+    {
+      "category": "Semantic / Tricky",
+      "question": "Was the Middle Passage simply a system for transporting labor?",
+      "ground_truth_context": "The Middle Passage is significant to me because it shows how slavery was not just about 'labor,' but about a whole system that treated Black people as cargo in a global supply chain.",
+      "ground_truth_answer": "No, it was a brutal system that treated Black people as cargo within a global supply chain, stripping them of their humanity."
+    },
+    {
+      "category": "Factual",
+      "question": "What did Olaudah Equiano achieve after surviving the Middle Passage?",
+      "ground_truth_context": "Equiano later bought his freedom and became an abolitionist writer and lecturer in Britain.",
+      "ground_truth_answer": "He bought his freedom and became an abolitionist writer and lecturer in Britain."
+    },
+    {
+      "category": "Reasoning",
+      "question": "Why is Olaudah Equiano's narrative considered historically significant?",
+      "ground_truth_context": "His story matters for the African-American experience because it shows how enslaved people were not silent objects, they were witnesses who wrote back to the world. Through his narrative, Equiano turned his trauma into political power, convincing readers that slavery was morally wrong.",
+      "ground_truth_answer": "It is significant because it proved enslaved people were active witnesses who could turn their personal trauma into political power to argue against the morality of slavery."
+    },
+    {
+      "category": "Factual",
+      "question": "In what year did David Walker publish his pamphlet?",
+      "ground_truth_context": "The American Yawp describes him as a free Black man in Boston who wrote Appeal to the Colored Citizens of the World in 1829, a pamphlet that called out both slavery and northern racism.",
+      "ground_truth_answer": "David Walker published his pamphlet in 1829."
+    },
+    {
+      "category": "Reasoning",
+      "question": "What foundational American documents and ideas did David Walker use to argue against slavery?",
+      "ground_truth_context": "Walker argued that slavery completely contradicted American ideas of Christianity and the Declaration of Independence.",
+      "ground_truth_answer": "Walker used American ideas of Christianity and the Declaration of Independence to argue that slavery was a complete contradiction to the nation's values."
+    },
+    {
+      "category": "Factual",
+      "question": "How did Southern authorities respond to David Walker's Appeal?",
+      "ground_truth_context": "Southern authorities were so scared of his ideas that they tried to ban the pamphlet and threatened anyone caught distributing it.",
+      "ground_truth_answer": "They attempted to ban the pamphlet and threatened anyone who was caught distributing it."
+    },
+    {
+      "category": "Factual",
+      "question": "Where was Angelina Grimké originally from, and what was her family background?",
+      "ground_truth_context": "A white woman from a slaveholding South Carolina family, she left the South and joined the abolitionist movement.",
+      "ground_truth_answer": "She was from South Carolina and came from a slaveholding family."
+    },
+    {
+      "category": "Semantic / Tricky",
+      "question": "Did Angelina Grimké direct her 1836 pamphlet at Northern politicians?",
+      "ground_truth_context": "In her pamphlet Appeal to the Christian Women of the South (1836), which we read through the American Yawp Reader, she urged Southern white women to see slavery as a sin and to act against it.",
+      "ground_truth_answer": "No, her pamphlet was specifically directed at Southern white women, urging them to view slavery as a sin."
+    },
+    {
+      "category": "Factual",
+      "question": "Who founded the newspaper The Liberator in 1831?",
+      "ground_truth_context": "In 1831 he founded the newspaper The Liberator, whose opening editorial we read in the Reader.",
+      "ground_truth_answer": "William Lloyd Garrison founded The Liberator in 1831."
+    },
+    {
+      "category": "Reasoning",
+      "question": "How did William Lloyd Garrison's political views on slavery evolve over time?",
+      "ground_truth_context": "The American Yawp's 'Religion and Reform' chapter shows how William Lloyd Garrison shifted from supporting gradual emancipation and colonization to demanding immediate freedom, influenced by writings from Black abolitionists like Walker.",
+      "ground_truth_answer": "He shifted from supporting gradual emancipation and colonization to demanding immediate freedom for enslaved people."
+    },
+    {
+      "category": "Factual",
+      "question": "What tools did abolitionists use to build a mass movement?",
+      "ground_truth_context": "The documentaries we watched about abolitionists, especially the clips on Garrison and his circle-showed how abolitionists used newspapers, petitions, and lectures to build a mass movement.",
+      "ground_truth_answer": "Abolitionists used newspapers, petitions, and lectures to organize and spread their message."
+    },
+    {
+      "category": "Factual",
+      "question": "Who authored the selection 'Enter the New Negro'?",
+      "ground_truth_context": "The American Yawp's chapter on the New Era and the Reader selection from Alain Locke's 'Enter the New Negro' describe a generation of Black artists and thinkers who were tired of old stereotypes and wanted 'a new vision of opportunity'.",
+      "ground_truth_answer": "Alain Locke authored 'Enter the New Negro'."
+    },
+    {
+      "category": "Reasoning",
+      "question": "Name two writers and one musician associated with the Harlem Renaissance in the text.",
+      "ground_truth_context": "Harlem became a cultural capital where writers like Langston Hughes and Zora Neale Hurston, musicians like Duke Ellington, and visual artists all experimented with new forms.",
+      "ground_truth_answer": "Writers Langston Hughes and Zora Neale Hurston, and musician Duke Ellington."
+    },
+    {
+      "category": "Semantic / Tricky",
+      "question": "Did the Harlem Renaissance only impact the 1920s?",
+      "ground_truth_context": "It gave later movements a language of pride-'Black is beautiful'-that continues into hip-hop and Black art today.",
+      "ground_truth_answer": "No, it provided a language of pride that continues to influence hip-hop and Black art today."
+    },
+    {
+      "category": "Factual",
+      "question": "What did the Supreme Court rule in the 1954 Brown v. Board of Education decision?",
+      "ground_truth_context": "Legally, the story begins with Brown v. Board of Education (1954), where the Supreme Court finally overturned 'separate but equal' and ruled that segregated schools were unconstitutional.",
+      "ground_truth_answer": "The Supreme Court overturned 'separate but equal' and ruled that segregated public schools were unconstitutional."
+    },
+    {
+      "category": "Factual",
+      "question": "What major legislative acts were passed partly due to the pressure of events like 'Bloody Sunday'?",
+      "ground_truth_context": "That pressure helped push through the Civil Rights Act of 1964 and the Voting Rights Act of 1965.",
+      "ground_truth_answer": "The Civil Rights Act of 1964 and the Voting Rights Act of 1965."
+    },
+    {
+      "category": "Factual",
+      "question": "Who were the primary leaders and organizations involved in the Rainbow Coalition?",
+      "ground_truth_context": "The Rainbow Coalition of the late 1960s, led by Illinois Black Panther Party leader Fred Hampton along with the Young Lords and the Young Patriots, was one of the most eye-opening things we studied.",
+      "ground_truth_answer": "The coalition was led by Fred Hampton of the Illinois Black Panther Party, along with the Young Lords and the Young Patriots."
+    },
+    {
+      "category": "Reasoning",
+      "question": "What specific social issues did the Rainbow Coalition organize to fight in Chicago?",
+      "ground_truth_context": "In Chicago, Hampton helped build a multiracial alliance between poor Black, Puerto Rican, and white Appalachian communities to fight police brutality, bad housing, and poverty.",
+      "ground_truth_answer": "They organized to fight against police brutality, bad housing conditions, and poverty."
+    },
+    {
+      "category": "Reasoning",
+      "question": "How does the text explain the government's intense reaction to Fred Hampton and the Rainbow Coalition?",
+      "ground_truth_context": "Second, the intense government repression against Hampton and the Panthers, including the FBI's COINTELPRO program and Hampton's assassination reveals how threatening this kind of cross-racial organizing was to the status quo.",
+      "ground_truth_answer": "The government reacted with intense repression, including assassination and the COINTELPRO program, because cross-racial organizing was seen as a massive threat to the status quo."
+    },
+    {
+      "category": "Factual",
+      "question": "Whose acquittal led to the creation of the #BlackLivesMatter movement?",
+      "ground_truth_context": "Three Black women organizers Alicia Garza, Patrisse Cullors, and Opal Tometi created #BlackLivesMatter in 2013 after the acquittal of George Zimmerman in the killing of Trayvon Martin.",
+      "ground_truth_answer": "The acquittal of George Zimmerman for the killing of Trayvon Martin."
+    },
+    {
+      "category": "Factual",
+      "question": "According to the text, how many people participated in the 2020 protests?",
+      "ground_truth_context": "Reports show that the 2020 protests, which spread to thousands of cities in the U.S. and around the world, may have involved between 15 and 26 million participants, making BLM one of the largest protest movements in American history.",
+      "ground_truth_answer": "Between 15 and 26 million participants."
+    },
+    {
+      "category": "Reasoning",
+      "question": "What makes the Black Lives Matter movement historically significant in the context of previous civil rights struggles?",
+      "ground_truth_context": "Black Lives Matter matters to African-American history because it proves that, even after civil rights laws, systemic racism and police violence are still being challenged by new generations using social media, decentralized leadership, and global solidarity.",
+      "ground_truth_answer": "It demonstrates that despite the passage of civil rights laws, new generations must still challenge systemic racism and police violence, utilizing new tools like social media and decentralized leadership."
+    }
+  ]
