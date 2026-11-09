@@ -1,5 +1,6 @@
 import os
 import shutil
+import logging
 from datetime import datetime
 from typing import List, Optional
 from dotenv import load_dotenv
@@ -14,6 +15,10 @@ from flashrank import Ranker, RerankRequest
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey, DateTime, JSON
 from sqlalchemy.orm import declarative_base, sessionmaker, Session, relationship
+
+# Suppress verbose HTTP and model logging in terminal
+logging.getLogger("google_genai.models").setLevel(logging.ERROR)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 load_dotenv()
 
@@ -63,19 +68,26 @@ def get_db():
 # --- 2. Initialize AI Models ---
 embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embeddings)
-llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0)
 ranker = Ranker(model_name="ms-marco-TinyBERT-L-2-v2", cache_dir="./model_cache")
+
 # --- 3. Prompts ---
-PROMPT_TEMPLATE = """
-You are an expert study assistant. Answer the user's question using ONLY the provided context.
-If the answer is not contained in the context, say "I cannot answer this based on the provided notes."
+# Enforces strict refusal to prevent hallucinations on out-of-scope/unanswerable queries
+PROMPT_TEMPLATE = """You are an academic study assistant strictly grounded in course notes.
+Answer the user's question using ONLY the provided context below. Cite the page number if available.
+
+STRICT RULE ON UNANSWERABLE QUESTIONS:
+If the answer cannot be found directly and fully in the context below, you MUST respond EXACTLY:
+"I cannot answer this based on the provided notes."
+Do NOT use outside knowledge, assumptions, or external facts under any circumstances.
 
 Context:
 {context}
 
 Question:
 {question}
-"""
+
+Answer:"""
 prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
 
 # --- 4. Pydantic Schemas ---
@@ -154,12 +166,13 @@ def chat_endpoint(request: QueryRequest, db_session: Session = Depends(get_db)):
     retrieved_docs = db.similarity_search(request.question, k=initial_k)
     
     if not retrieved_docs:
+        rejection_msg = "I cannot answer this based on the provided notes."
         if session:
-            assistant_msg = DBMessage(session_id=session.id, role="assistant", text="No matching documents found.")
+            assistant_msg = DBMessage(session_id=session.id, role="assistant", text=rejection_msg)
             db_session.add(assistant_msg)
             db_session.commit()
         return {
-            "answer": "No matching documents found.",
+            "answer": rejection_msg,
             "sources": [],
             "context_chunks": [],
             "strategy_used": request.strategy

@@ -178,5 +178,95 @@
       "question": "What makes the Black Lives Matter movement historically significant in the context of previous civil rights struggles?",
       "ground_truth_context": "Black Lives Matter matters to African-American history because it proves that, even after civil rights laws, systemic racism and police violence are still being challenged by new generations using social media, decentralized leadership, and global solidarity.",
       "ground_truth_answer": "It demonstrates that despite the passage of civil rights laws, new generations must still challenge systemic racism and police violence, utilizing new tools like social media and decentralized leadership."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What were the primary military tactics employed during the Battle of Gettysburg in 1863?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "How did the Apollo 11 lunar module successfully touch down on the moon in 1969?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What economic and political factors contributed to the fall of the Western Roman Empire?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What were the major causes and political outcomes of the French Revolution in 1789?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "Who invented the movable-type mechanical printing press in Europe during the 15th century?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "How does the light-dependent reaction of photosynthesis convert solar energy into chemical energy?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What were the primary legal provisions established in the Magna Carta signed in 1215?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What engineering techniques were used to build the Great Pyramid of Giza under Pharaoh Khufu?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "How did the terms of the Treaty of Versailles contribute to the outbreak of World War II in Europe?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What core physical principles form the basis of Albert Einstein's general theory of relativity?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "Who was the first emperor of unified China and what centralized reforms did the Qin dynasty establish?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What was the scientific objective and outcome of the Manhattan Project in Los Alamos?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "How did steam power accelerate the Industrial Revolution in eighteenth-century Great Britain?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What philosophical arguments does Plato present regarding justice and the ideal state in The Republic?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
+    },
+    {
+      "category": "Unanswerable",
+      "question": "What speculative market triggers caused the Wall Street crash of 1929 leading to the Great Depression?",
+      "ground_truth_context": "",
+      "ground_truth_answer": "I cannot answer this based on the provided notes."
     }
   ]

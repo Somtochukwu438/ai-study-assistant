@@ -1,36 +1,41 @@
 import sys
-import langchain_google_vertexai
-# THE FIX: Trick Ragas into finding the moved VertexAI module
-sys.modules['langchain_community.chat_models.vertexai'] = langchain_google_vertexai
-
+import os
 import json
 import time
 import requests
 import pandas as pd
-from datasets import Dataset
-import os
+import numpy as np
 from dotenv import load_dotenv
+from datasets import Dataset
+
+# Fix legacy module path for Ragas
+import langchain_google_vertexai
+sys.modules['langchain_community.chat_models.vertexai'] = langchain_google_vertexai
+
 load_dotenv()
 
-# Ragas and LangChain imports for grading
 from ragas import evaluate
 from ragas.run_config import RunConfig
 from ragas.metrics import faithfulness, context_precision, context_recall
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 
-# 1. Configure Gemini to act as the "Judge" for our metrics
-eval_llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash")
+# --- Configuration ---
+NUM_RUNS = 1                  # Set to 1 for a stable pass; run again if capturing multi-run variance
+API_URL = "http://localhost:8000/chat"
+SESSION_ID = 999999
+
+# --- Initialize Evaluator Models (No temperature parameter to eliminate warnings) ---
+eval_llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash")
 eval_embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
-# Throttle Ragas so it doesn't blow past rate limits
-eval_run_config = RunConfig(max_workers=1, timeout=180)
+# Fast 40s timeout and single worker to protect free-tier quotas
+eval_run_config = RunConfig(max_workers=1, timeout=40, max_retries=2)
 
-# 2. Setup API Endpoint
-API_URL = "http://localhost:8000/chat"
-SESSION_ID = 999999  # Dummy session ID
 
-def run_pipeline_evaluation(strategy_name, dataset):
-    print(f"\n🚀 Starting batch evaluation for strategy: {strategy_name.upper()}")
+def run_pipeline_evaluation(strategy_name: str, dataset: list) -> pd.DataFrame:
+    print(f"\n=======================================================")
+    print(f"🚀 COLLECTING CHAT RESPONSES: {strategy_name.upper()}")
+    print(f"=======================================================")
 
     results = {
         "question": [],
@@ -40,77 +45,112 @@ def run_pipeline_evaluation(strategy_name, dataset):
         "latency_sec": []
     }
 
+    # Step 1: Collect responses from FastAPI
     for i, item in enumerate(dataset):
-        print(f"   Processing question {i+1}/{len(dataset)}...")
         question = item["question"]
+        print(f"[{i+1}/{len(dataset)}] Querying {strategy_name.upper()}: {question[:45]}...")
 
         start_time = time.time()
+        try:
+            resp = requests.post(API_URL, json={
+                "session_id": SESSION_ID,
+                "question": question,
+                "strategy": strategy_name
+            }, timeout=60)
+            latency = time.time() - start_time
 
-        response = requests.post(API_URL, json={
-            "session_id": SESSION_ID,
-            "question": question,
-            "strategy": strategy_name
-        }, timeout=120)
+            if resp.status_code == 200:
+                data = resp.json()
+                results["question"].append(question)
+                results["answer"].append(data.get("answer", ""))
+                results["contexts"].append(data.get("context_chunks", []))
+                results["ground_truth"].append(item["ground_truth_answer"])
+                results["latency_sec"].append(latency)
+            else:
+                print(f"   ⚠️ HTTP {resp.status_code} on Q{i+1}")
+        except Exception as e:
+            print(f"   ⚠️ Request failed on Q{i+1}: {e}")
 
-        # Prevent flooding the API back-to-back
+        # Pacing delay between chat questions
         time.sleep(2)
 
-        latency = time.time() - start_time
+    print(f"\n✅ Finished collecting responses for {strategy_name.upper()}.")
+    print("⏳ Cooling down for 30s before starting Ragas automated grading...")
+    time.sleep(30)
 
-        if response.status_code == 200:
-            data = response.json()
-            retrieved_contexts = data.get("context_chunks", [])
+    # Step 2: Grade with Ragas in small chunks of 15 to prevent rate limits
+    chunk_size = 15
+    graded_dfs = []
+    total_items = len(results["question"])
 
-            results["question"].append(question)
-            results["answer"].append(data["answer"])
-            results["contexts"].append(retrieved_contexts)
-            results["ground_truth"].append(item["ground_truth_answer"])
-            results["latency_sec"].append(latency)
-        else:
-            print(f"   ❌ Error on question {i+1}: Backend returned {response.status_code}")
+    for start_idx in range(0, total_items, chunk_size):
+        end_idx = min(start_idx + chunk_size, total_items)
+        print(f"\n📊 Grading batch [{start_idx + 1} to {end_idx}] of {total_items} with Ragas...")
 
-    print(f"✅ {strategy_name.upper()} data collection complete. Grading with Ragas...")
+        sub_dict = {
+            "question": results["question"][start_idx:end_idx],
+            "answer": results["answer"][start_idx:end_idx],
+            "contexts": results["contexts"][start_idx:end_idx],
+            "ground_truth": results["ground_truth"][start_idx:end_idx],
+        }
 
-    hf_dataset = Dataset.from_dict(results)
+        sub_dataset = Dataset.from_dict(sub_dict)
 
-    evaluation_result = evaluate(
-        dataset=hf_dataset,
-        metrics=[context_precision, context_recall, faithfulness],
-        llm=eval_llm,
-        embeddings=eval_embeddings,
-        run_config=eval_run_config
-    )
+        try:
+            eval_res = evaluate(
+                dataset=sub_dataset,
+                metrics=[context_precision, context_recall, faithfulness],
+                llm=eval_llm,
+                embeddings=eval_embeddings,
+                run_config=eval_run_config
+            )
+            sub_df = eval_res.to_pandas()
+            sub_df["latency_sec"] = results["latency_sec"][start_idx:end_idx]
+            graded_dfs.append(sub_df)
+        except Exception as e:
+            print(f"   ⚠️ Ragas grading exception in batch: {e}")
 
-    df = evaluation_result.to_pandas()
-    df["latency_sec"] = results["latency_sec"]
-    df["strategy"] = strategy_name
+        # Cooldown between Ragas batches
+        if end_idx < total_items:
+            print("   ⏳ Pausing 45s to reset Gemini API rate quotas...")
+            time.sleep(45)
 
-    return df
+    final_strategy_df = pd.concat(graded_dfs, ignore_index=True) if graded_dfs else pd.DataFrame()
+    final_strategy_df["strategy"] = strategy_name
+    return final_strategy_df
+
 
 def main():
     try:
         with open("ground_truth.json", "r") as f:
             test_dataset = json.load(f)
     except FileNotFoundError:
-        print("Error: ground_truth.json not found in this directory.")
+        print("Error: ground_truth.json not found.")
         return
 
-    # Run the Standard Pipeline
-    standard_df = run_pipeline_evaluation(strategy_name="standard", dataset=test_dataset)
+    print(f"Loaded {len(test_dataset)} benchmark questions.")
 
-    # Run the Rerank Pipeline
-    rerank_df = run_pipeline_evaluation(strategy_name="rerank", dataset=test_dataset)
+    # 1. Run Standard Pipeline
+    standard_df = run_pipeline_evaluation("standard", test_dataset)
 
-    # Merge and save
+    print("\n⏳ Pausing 60s between pipelines to ensure fresh quotas...")
+    time.sleep(60)
+
+    # 2. Run Rerank Pipeline
+    rerank_df = run_pipeline_evaluation("rerank", test_dataset)
+
+    # 3. Save Clean Combined Output
     final_df = pd.concat([standard_df, rerank_df], ignore_index=True)
     final_df.to_csv("rag_evaluation_results.csv", index=False)
 
     print("\n🎉 EVALUATION COMPLETE! 🎉")
-    print("Results saved to: rag_evaluation_results.csv")
+    print("Results successfully saved to: rag_evaluation_results.csv")
 
-    print("\n--- PERFORMANCE SUMMARY ---")
-    summary = final_df.groupby("strategy")[["context_precision", "context_recall", "faithfulness", "latency_sec"]].mean()
+    metrics = ["context_precision", "context_recall", "faithfulness", "latency_sec"]
+    summary = final_df.groupby("strategy")[metrics].mean()
+    print("\n--- SUMMARY METRICS ---")
     print(summary)
+
 
 if __name__ == "__main__":
     main()
